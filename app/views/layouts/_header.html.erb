@@ -5,7 +5,28 @@
       <ul class="nav navbar-nav navbar-right">
         <li><%= link_to "Home",    root_path %></li>
         <li><%= link_to "Help",    help_path %></li>
-        <li><%= link_to "Log in", '#' %></li>
+<% if logged_in? %>
+          <li><%= link_to "Users", '#' %></li>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+              Account <b class="caret"></b>
+            </a>
+            <!-- bootstrap, used with the addition to application.js in assets/javascripts -->
+            <ul class="dropdown-menu">
+              <!-- rails knows that current_user should be user_path(current_user) so we don't need to write it all out-->
+              <li><%= link_to "Profile", current_user %></li>
+              <li><%= link_to "Settings", '#' %></li>
+              <li class="divider"></li>
+              <li>
+                <!-- the method tells which HTTP request to use -->
+                <%= link_to "Log out", logout_path, method: "delete" %>
+              </li>
+            </ul>
+          </li>
+        <% else %>
+          <!-- currently unsure what login_path means -->
+          <li><%= link_to "Log in", login_path %></li>
+        <% end %>
       </ul>
     </nav>
   </div>

@@ -1,2 +1,15 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
+#FIXTURES!
+# using the class method from user.rb in the app/models folder
+# to get a low cost password_digest
+# this fixture is first used (and first created) to help with tests
+
+# we can refer to this as user = users(:sliu)
+# where user is an object of class user, and 'users' refers to this file (users.yml)
+
+sliu:
+  name: Stephanie Liu
+  email: sliu@example.com
+  password_digest: <%= User.digest('password') %>
+  
