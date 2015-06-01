@@ -63,7 +63,7 @@ module SessionsHelper
     elsif (user_id = cookies.signed[:user_id])
       user = User.find_by(id: user_id)
       # if there is a user objected by that user id and the remember token matches the user
-      if user && user.authenticated?(cookies[:remember_token])
+      if user && user.authenticated?(:remember, cookies[:remember_token])
         # log the user in, set the current user, log in a method of ??
         log_in user
         @current_user = user

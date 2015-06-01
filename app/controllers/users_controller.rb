@@ -32,7 +32,8 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
     if @user.save
       # Handle a successful save
-      UserMailer.account_activation(@user).deliver_now
+      # using the send_activation_email method of the USER class
+      @user.send_activation_email
       flash[:info] = "Please check your email to activate your account."
       redirect_to root_url
     else

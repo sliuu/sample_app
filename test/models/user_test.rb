@@ -70,7 +70,7 @@ class UserTest < ActiveSupport::TestCase
   # crash when a remember token is present, but a remember_digest is not
   # eg) the case when two browsers are open, and the user logs out of one (thereby deleting the remember_digest)
   test "authenticated? should return false for a user with nil digest" do
-    assert_not @user.authenticated?('')
+    assert_not @user.authenticated?(:remember, '')
   end
 
 end
