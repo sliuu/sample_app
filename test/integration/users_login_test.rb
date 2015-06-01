@@ -8,7 +8,7 @@ class UsersLoginTest < ActionDispatch::IntegrationTest
     # 'users' refers to file users.yml in tests/fixtures
     @user = users(:sliu)
   end
-  
+
   test "login with valid information followed by logout" do
     #visit login page
     get login_path
@@ -33,6 +33,9 @@ class UsersLoginTest < ActionDispatch::IntegrationTest
     assert_not is_logged_in?
     #make sure we are redirected to the home page
     assert_redirected_to root_url
+    # Simulate a user clicking logout in a second window.
+    # user logs out in the first window, then the second window (don't crash!)
+    delete logout_path
     #go to home
     follow_redirect!
     #make sure the login link is there, the logout and profile ones are not
@@ -40,7 +43,7 @@ class UsersLoginTest < ActionDispatch::IntegrationTest
     assert_select "a[href=?]", logout_path, count: 0
     assert_select "a[href=?]", user_path(@user), count: 0
   end
-  
+
   test 'login with invalid information' do
     #visit login page
     get login_path
@@ -57,4 +60,18 @@ class UsersLoginTest < ActionDispatch::IntegrationTest
     #make sure the flash is NOT still there
     assert flash.empty?
   end
+
+  # Testing the checkbox:
+  # if it is checked, there should be cookies, if not, there shouldn't
+  test "login with remembering" do
+    log_in_as(@user, remember_me: '1')
+    #'remember_token' instead of :remember_token because ruby is weird
+    assert_not_nil cookies['remember_token']
+  end
+
+  test "login without remembering" do
+    log_in_as(@user, remember_me: '0')
+    assert_nil cookies['remember_token']
+  end
+
 end

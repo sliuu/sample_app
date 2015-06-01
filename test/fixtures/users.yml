@@ -12,4 +12,31 @@ sliu:
   name: Stephanie Liu
   email: sliu@example.com
   password_digest: <%= User.digest('password') %>
-  
+  admin: true
+
+# need a second user to ensure that one user cannot edit anothers' information
+
+archer:
+  name: Sterling Archer
+  email: duchess@example.gov
+  password_digest: <%= User.digest('password') %>
+
+# Need more than 30 users to check pagination on "index"
+# Fixtures supports embedded ruby! YAY!
+
+lana:
+  name: Lana Kane
+  email: hands@example.gov
+  password_digest: <%= User.digest('password') %>
+
+mallory:
+  name: Mallory Archer
+  email: boss@example.gov
+  password_digest: <%= User.digest('password') %>
+
+<% 30.times do |n| %>
+user_<%= n %>:
+  name:  <%= "User #{n}" %>
+  email: <%= "user-#{n}@example.com" %>
+  password_digest: <%= User.digest('password') %>
+<% end %>

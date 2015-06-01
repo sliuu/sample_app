@@ -1,0 +1,12 @@
+<li>
+  <%= gravatar_for user, size: 50 %>
+  <%= link_to user.name, user %>
+  <!-- if the user as an admin, show the delete buttons-->
+  <% if current_user.admin? && !current_user?(user) %>
+  | <%= link_to "delete", user, method: :delete,
+                                data: { confirm: "You sure?" } %>
+<% end %>
+</li>
+
+<!-- Web browsers also (like update) can't send delete requests natively
+so this uses javascript, but a faked POST request can alternatively be user-->

@@ -1,0 +1,25 @@
+<!--
+Show all users
+Wrap each user in a li tag -->
+
+<% provide(:title, 'All users') %>
+<h1>All users</h1>
+
+<%= will_paginate %>
+
+<ul class="users">
+  <%= render @users %>
+  <!--
+  ** Don't even need this! Just render @users and rails will know to iterate through
+  <% @users.each do |user| %>
+    <%= render user %>
+     Better, more compact views with render!!
+    ** With render, rails will automatically look for _user.html.erb
+    <li>
+      <%= gravatar_for user, size: 50 %>
+      <%= link_to user.name, user %>
+    </li>
+  <% end %>-->
+</ul>
+
+<%= will_paginate %>

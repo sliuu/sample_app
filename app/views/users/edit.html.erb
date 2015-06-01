@@ -1,0 +1,39 @@
+<!-- can this be consolidated? hell yeah but not rn
+The name and email fields will be pre-filled on this edit page
+because rails is amazing, I guess-->
+
+<!-- interestingly, web browsers can't natively send PATCH requests
+so rails fakes it with "hidden" fields and a POST request-->
+
+<% provide(:title, "Edit user") %>
+<h1>Update your profile</h1>
+
+<div class="row">
+  <div class="col-md-6 col-md-offset-3">
+    <!-- Rails uses POST if the user doesn't already exist, PATCH if it does
+    to make form_for applicable to both-->
+    <%= form_for(@user) do |f| %>
+      <%= render 'shared/error_messages' %>
+
+      <%= f.label :name %>
+      <%= f.text_field :name, class: 'form-control' %>
+
+      <%= f.label :email %>
+      <%= f.email_field :email, class: 'form-control' %>
+
+      <%= f.label :password %>
+      <%= f.password_field :password, class: 'form-control' %>
+
+      <%= f.label :password_confirmation, "Confirmation" %>
+      <%= f.password_field :password_confirmation, class: 'form-control' %>
+
+      <%= f.submit "Save changes", class: "btn btn-primary" %>
+    <% end %>
+
+    <div class="gravatar_edit">
+      <%= gravatar_for @user %>
+      <!-- target="_blank" is used to open a new page (new window/tab)-->
+      <a href="http://gravatar.com/emails" target="_blank">change</a>
+    </div>
+  </div>
+</div>
