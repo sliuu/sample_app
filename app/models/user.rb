@@ -6,6 +6,10 @@ class User < ActiveRecord::Base
   before_save   :downcase_email
   before_create :create_activation_digest
 
+  # corollary of "belongs_to :user", which actually was automatic
+  # dependent: :destroy ensures that if a user is destroyed, the microposts are destroyed too
+  has_many :microposts, dependent: :destroy
+
   # make sure the name isn't blank, isn't too long
   # make sure the email is in (kind of) proper format
   # make sure the password is valid, long enough, etc.
@@ -115,6 +119,13 @@ class User < ActiveRecord::Base
   def password_reset_expired?
     # read this as "password reset sent earlier than 2 hours ago"
     reset_sent_at < 2.hours.ago
+  end
+
+  # Defines a proto-feed.
+  # See "Following users" for the full implementation.
+  def feed
+    # escape the id to avoid security holes
+    Micropost.where("user_id = ?", id)
   end
 
   private

@@ -10,4 +10,17 @@ by ourselves in order to show user information-->
       </h1>
     </section>
   </aside>
+  <!-- Shows Microposts in descending order
+  Orderedlist! Because we have an order. Render calls the _microposts view automatically-->
+  <div class="col-md-8">
+  <% if @user.microposts.any? %>
+    <h3>Microposts (<%= @user.microposts.count %>)</h3>
+    <ol class="microposts">
+      <%= render @microposts %>
+    </ol>
+    <!-- need the added @microposts now because we're in user, so will_paginate assumes
+    we'd want to call @user, which we do in the other case (index) for users-->
+    <%= will_paginate @microposts %>
+  <% end %>
+</div>
 </div>

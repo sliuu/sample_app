@@ -22,6 +22,7 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
+    @microposts = @user.microposts.paginate(page: params[:page])
   end
 
   def new
@@ -66,16 +67,6 @@ class UsersController < ApplicationController
                                       :password_confirmation)
     end
 
-    # Confirms a logged-in user
-    def logged_in_user
-      unless logged_in?
-        # remember the URL! store_location is a helper method
-        store_location
-        # If not logged in, redirect to login URL
-        flash[:danger] = "Please log in."
-        redirect_to login_url
-      end
-    end
 
     # Confirms the correct user.
     def correct_user

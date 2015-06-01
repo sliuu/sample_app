@@ -13,7 +13,9 @@ so rails fakes it with "hidden" fields and a POST request-->
     <!-- Rails uses POST if the user doesn't already exist, PATCH if it does
     to make form_for applicable to both-->
     <%= form_for(@user) do |f| %>
-      <%= render 'shared/error_messages' %>
+      <!-- last, "object" part needed because we generalized the error messages
+      to allow for the use by microposts-->
+      <%= render 'shared/error_messages', object: f.object %>
 
       <%= f.label :name %>
       <%= f.text_field :name, class: 'form-control' %>
