@@ -1,7 +1,10 @@
 class User < ActiveRecord::Base
 
   # an accessible attribute
-  attr_accessor :remember_token
+  attr_accessor :remember_token, :activation_token
+  # use the private methods in this class
+  before_save   :downcase_email
+  before_create :create_activation_digest
 
   # make sure the name isn't blank, isn't too long
   # make sure the email is in (kind of) proper format
@@ -74,5 +77,18 @@ class User < ActiveRecord::Base
   def forget
     update_attribute(:remember_digest, nil)
   end
+
+  private
+
+    # Converts email to all lower-case.
+    def downcase_email
+      self.email = email.downcase
+    end
+
+    # Creates and assigns the activation token and digest.
+    def create_activation_digest
+      self.activation_token  = User.new_token
+      self.activation_digest = User.digest(activation_token)
+    end
 
 end
